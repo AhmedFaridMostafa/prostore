@@ -1,6 +1,5 @@
 import { LATEST_PRODUCTS_LIMIT } from "@/lib/constants";
 import { convertToPlainObject } from "@/lib/utils";
-// import prisma from "../prisma";
 import { prisma } from "@/db/prisma";
 
 // Get the latest products

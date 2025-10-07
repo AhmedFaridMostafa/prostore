@@ -5,7 +5,7 @@ import { Product } from "@/types/prisma.types";
 const Home = async () => {
   let latestProducts: Product[] = [];
   try {
-    latestProducts = (await getLatestProducts()) as unknown as Product[];
+    latestProducts = await getLatestProducts();
   } catch (err) {
     if (process.env.NODE_ENV !== "production") {
       console.error(
