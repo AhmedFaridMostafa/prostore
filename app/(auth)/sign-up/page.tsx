@@ -1,9 +1,6 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-
-import { auth } from "@/auth";
 import {
   Card,
   CardContent,
@@ -12,19 +9,24 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { APP_NAME } from "@/lib/constants";
-import CredentialsSignInForm from "../_components/signin-form";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import SignUpForm from "../_components/signup-form";
 import { SearchParamProps } from "@/types";
 
 export const metadata: Metadata = {
-  title: "Sign In",
+  title: "Sign Up",
 };
 
-const SignIn = async ({ searchParams }: SearchParamProps) => {
+const SignUp = async ({ searchParams }: SearchParamProps) => {
   const { callbackUrl } = await searchParams;
+
   const session = await auth();
+
   if (session) {
-    return redirect((callbackUrl as string) || "/");
+    return redirect(callbackUrl || "/");
   }
+
   return (
     <div className="w-full max-w-md mx-auto">
       <Card>
@@ -38,17 +40,17 @@ const SignIn = async ({ searchParams }: SearchParamProps) => {
               alt={`${APP_NAME} logo`}
             />
           </Link>
-          <CardTitle className="text-center">Sign In</CardTitle>
+          <CardTitle className="text-center">Create Account</CardTitle>
           <CardDescription className="text-center">
-            Select a method to sign in to your account
+            Enter your information below to create your account
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <CredentialsSignInForm />
+          <SignUpForm />
         </CardContent>
       </Card>
     </div>
   );
 };
 
-export default SignIn;
+export default SignUp;
