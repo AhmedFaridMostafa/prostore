@@ -14,7 +14,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { productDefaultValues } from "@/lib/constants";
 import { insertProductSchema, updateProductSchema } from "@/lib/validator";
 import {
-  ControllerRenderProps,
   SubmitHandler,
   type Resolver,
 } from "react-hook-form";
@@ -30,7 +29,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { UploadButton } from "@/lib/uploadthing";
 import { X } from "lucide-react";
-import { useTransition } from "react";
+
 
 const ProductForm = ({
   type,
