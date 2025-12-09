@@ -2,16 +2,20 @@ import { notFound } from "next/navigation";
 import ProductPrice from "@/components/shared/product/product-price";
 import { Card, CardContent } from "@/components/ui/card";
 import { getProductBySlug } from "@/lib/actions/product.actions";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Product } from "@/types/prisma.types";
+import { Product, SearchParamProps } from "@/types";
 import ProductImages from "@/components/shared/product/product-images";
+import AddToCart from "@/components/shared/product/add-to-cart";
+import { getMyCart } from "@/lib/actions/cart.actions";
 
 const ProductDetail = async ({ params }: SearchParamProps) => {
   const { slug } = await params;
 
   const product = (await getProductBySlug(slug)) as Product | null;
+
   if (!product) notFound();
+
+  const cart = await getMyCart();
   return (
     <>
       <section>
@@ -64,7 +68,17 @@ const ProductDetail = async ({ params }: SearchParamProps) => {
                 </div>
                 {product.stock > 0 && (
                   <div className=" flex-center">
-                    <Button className="w-full">Add to cart</Button>
+                    <AddToCart
+                      cart={cart}
+                      item={{
+                        productId: product.id,
+                        name: product.name,
+                        slug: product.slug,
+                        price: product.price,
+                        qty: 1,
+                        image: product.images![0],
+                      }}
+                    />
                   </div>
                 )}
               </CardContent>

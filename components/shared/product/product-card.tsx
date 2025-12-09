@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import ProductPrice from "./product-price";
-import { Product } from "@/types/prisma.types";
+import { Product } from "@/types";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
@@ -11,12 +11,13 @@ const ProductCard = ({ product }: { product: Product }) => {
       <CardHeader className="p-0 items-center">
         <Link href={`/product/${product.slug}`}>
           <Image
-            priority={true}
             src={product.images![0]}
             alt={product.name}
             className="aspect-square object-cover rounded"
             height={300}
             width={300}
+            loading="lazy"
+            quality={75}
           />
         </Link>
       </CardHeader>
