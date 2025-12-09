@@ -205,3 +205,26 @@
     color: theme("colors.foreground");
   }
 }
+
+/* styles to uploadthing button */
+.upload-button {
+  & > label {
+    @apply whitespace-nowrap rounded-md text-sm font-medium text-foreground transition-all h-8 px-3 border bg-background shadow-xs cursor-pointer outline-none;
+
+    &:hover {
+      @apply bg-accent text-accent-foreground;
+    }
+
+    &:focus-visible {
+      @apply border-ring ring-ring/50 ring-[3px];
+    }
+
+    .dark & {
+      @apply bg-input/30 border-input;
+
+      &:hover {
+        @apply bg-input/50;
+      }
+    }
+  }
+}
