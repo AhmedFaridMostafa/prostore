@@ -3,8 +3,6 @@
 import { use, useState } from "react";
 import { Review } from "@/types";
 
-import { User } from "lucide-react";
-
 import Link from "next/link";
 import ReviewForm from "./review-form";
 
