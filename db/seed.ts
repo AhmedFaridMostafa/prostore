@@ -1,8 +1,17 @@
+import { neonConfig } from "@neondatabase/serverless";
+import { PrismaNeon } from "@prisma/adapter-neon";
 import { PrismaClient } from "@prisma/client";
+import ws from "ws";
 import sampleData from "@/db/sample-data";
 
+// Sets up WebSocket connections, which enables Neon to use WebSocket communication.
+neonConfig.webSocketConstructor = ws;
+const connectionString = `${process.env.DATABASE_URL}`;
+
+const adapter = new PrismaNeon({ connectionString });
+const prisma = new PrismaClient({ adapter });
+
 async function main() {
-  const prisma = new PrismaClient();
   await prisma.product.deleteMany();
   await prisma.account.deleteMany();
   await prisma.session.deleteMany();
@@ -15,4 +24,11 @@ async function main() {
   console.log("Database seeded successfully");
 }
 
-main();
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
