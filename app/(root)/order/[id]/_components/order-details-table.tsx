@@ -27,16 +27,19 @@ import {
 } from "@/lib/actions/order.actions";
 import { toast } from "sonner";
 import ActionButton from "@/components/shared/ActionButton";
+import StripePayment from "./stripe-payment";
 
 interface OrderDetailsTableProps {
   order: Order;
   paypalClientId: string;
   isAdmin: boolean;
+  stripeClientSecret: string | null;
 }
 const OrderDetailsTable = ({
   order,
   paypalClientId,
   isAdmin,
+  stripeClientSecret,
 }: OrderDetailsTableProps) => {
   const {
     shippingAddress,
@@ -186,6 +189,15 @@ const OrderDetailsTable = ({
                   </PayPalScriptProvider>
                 </div>
               )}
+              {/* Stripe Payment */}
+              {!isPaid && paymentMethod === "Stripe" && stripeClientSecret && (
+                <StripePayment
+                  priceInCents={Number(order.totalPrice) * 100}
+                  orderId={order.id}
+                  clientSecret={stripeClientSecret}
+                />
+              )}
+
               {/* Cash On Delivery */}
               {isAdmin && !isPaid && paymentMethod === "CashOnDelivery" && (
                 <ActionButton
@@ -194,6 +206,7 @@ const OrderDetailsTable = ({
                   label="Mark As Paid"
                 />
               )}
+
               {isAdmin && isPaid && !isDelivered && (
                 <ActionButton
                   actionProps={order.id}
