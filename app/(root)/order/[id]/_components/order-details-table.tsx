@@ -30,7 +30,7 @@ import ActionButton from "@/components/shared/ActionButton";
 import StripePayment from "./stripe-payment";
 
 interface OrderDetailsTableProps {
-  order: Order;
+  order: Omit<Order, "paymentResult">;
   paypalClientId: string;
   isAdmin: boolean;
   stripeClientSecret: string | null;
